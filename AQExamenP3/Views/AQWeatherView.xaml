@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AQExamenP3.Views.AQWeatherView"
+             Title="Clima"
+             xmlns:local="clr-namespace:AQExamenP3.Views">
+
+    <ContentPage.BindingContext>
+        <local:AQWeatherViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20">
+        <!-- Entrada para la ubicación -->
+        <Entry Placeholder="Ingresa la ubicación" 
+               Text="{Binding Location}" 
+               HorizontalOptions="FillAndExpand" />
+
+        <!-- Botón para consultar el clima -->
+        <Button Text="Consultar Clima" 
+                Command="{Binding FetchWeatherCommand}" 
+                HorizontalOptions="Center" />
+
+        <!-- Indicador de actividad mientras se carga la información -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="CenterAndExpand" />
+
+        <!-- Etiquetas para mostrar la información del clima -->
+        <Label Text="{Binding CurrentWeather.Location}" 
+               FontSize="24" 
+               HorizontalOptions="Center" />
+        <Label Text="{Binding CurrentWeather.Country}" 
+               FontSize="18" 
+               HorizontalOptions="Center" />
+        <Label Text="{Binding CurrentWeather.Temperature}" 
+               FontSize="18" 
+               HorizontalOptions="Center" />
+        <Label Text="{Binding CurrentWeather.WeatherDescription}" 
+               FontSize="18" 
+               HorizontalOptions="Center" />
+
+        <!-- Imagen del ícono del clima -->
+        <Image Source="{Binding CurrentWeather.WeatherIconUrl}" 
+               WidthRequest="50" 
+               HeightRequest="50" 
+               HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
