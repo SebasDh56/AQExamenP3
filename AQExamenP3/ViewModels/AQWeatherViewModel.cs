@@ -1,25 +1,18 @@
-﻿using AQExamenP3.Models;
-using AQExamenP3.Services;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using AQExamenP3.Models;
+using AQExamenP3.Services;
+using System.Threading.Tasks;
 
 namespace AQExamenP3.ViewModels
 {
     public class AQWeatherViewModel : INotifyPropertyChanged
     {
-        private readonly AQWeatherService _weatherService;
+        public AQWeatherService WeatherService { get; set; }
         private string _location;
         private AQWeather _currentWeather;
         private bool _isBusy;
-
-        public AQWeatherViewModel()
-        {
-            _weatherService = new AQWeatherService();
-            FetchWeatherCommand = new Command(async () => await FetchWeatherAsync(), () => !IsBusy);
-        }
 
         public string Location
         {
@@ -27,7 +20,7 @@ namespace AQExamenP3.ViewModels
             set
             {
                 _location = value;
-                OnPropertyChanged();
+                OnPropertyChanged();  // Notificar que Location ha cambiado
             }
         }
 
@@ -37,7 +30,7 @@ namespace AQExamenP3.ViewModels
             set
             {
                 _currentWeather = value;
-                OnPropertyChanged();
+                OnPropertyChanged();  // Notificar que CurrentWeather ha cambiado
             }
         }
 
@@ -47,14 +40,19 @@ namespace AQExamenP3.ViewModels
             set
             {
                 _isBusy = value;
-                OnPropertyChanged();
-                ((Command)FetchWeatherCommand).ChangeCanExecute();
+                OnPropertyChanged();  // Notificar que IsBusy ha cambiado
             }
         }
 
-        public ICommand FetchWeatherCommand { get; }
+        public ICommand FetchWeatherCommand { get; set; }
 
-        private async Task FetchWeatherAsync()
+        public AQWeatherViewModel()
+        {
+            WeatherService = new AQWeatherService();
+            FetchWeatherCommand = new Command(async () => await FetchWeatherAsync(), () => !IsBusy);
+        }
+
+        public async Task FetchWeatherAsync()
         {
             if (string.IsNullOrEmpty(Location))
                 return;
@@ -63,14 +61,7 @@ namespace AQExamenP3.ViewModels
 
             try
             {
-                // Llamar al servicio de clima
-                CurrentWeather = await _weatherService.GetWeatherAsync(Location);
-
-                if (CurrentWeather == null)
-                {
-                    // Manejo de error: si no se obtienen resultados, mostramos un mensaje o hacemos alguna acción.
-                    Console.WriteLine("No se pudo obtener los datos del clima.");
-                }
+                CurrentWeather = await WeatherService.GetWeatherAsync(Location);
             }
             finally
             {

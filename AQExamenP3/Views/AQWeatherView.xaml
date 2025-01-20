@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AQExamenP3.Views">
 
     <ContentPage.BindingContext>
-        <local:AQWeatherViewModel />
+        <local:AQWeatherView />
     </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="20">

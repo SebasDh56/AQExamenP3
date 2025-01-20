@@ -16,4 +16,4 @@ namespace AQExamenP3.Models
         public DateTime ObservationTime { get; set; }
     }
 }
-    
+
