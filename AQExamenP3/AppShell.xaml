@@ -8,8 +8,8 @@
     Title="AQExamenP3">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        Title="Sebas"
+        ContentTemplate="{DataTemplate local:AQWeatherView}"
         Route="MainPage" />
 
 </Shell>
